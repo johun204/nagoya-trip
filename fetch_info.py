@@ -2,7 +2,7 @@
 """Fill opening hours (hours) and Google category (gtype) for plan.json places from Google Maps.
 
 Places with a cid are looked up directly; others are searched by q/name near their coordinates
-(and their cid is saved). hours = {"월": "...", ..., "일": "..."} as Google shows for the current week.
+(their cid is saved and lat/lng corrected to Google's). hours = {"월": "...", ..., "일": "..."} as Google shows for the current week.
 """
 import json, re, sys, time, urllib.parse, urllib.request
 from datetime import date
@@ -27,6 +27,7 @@ def info(fid):
     txt = get("https://www.google.com/maps/preview/place?authuser=0&hl=ko&gl=jp&pb=" + pb)
     d = json.loads(txt.split("\n", 1)[1])[6]
     gtype = (d[13] or [None])[0] if len(d) > 13 else None
+    coords = (d[9][2], d[9][3]) if d[9] else None
     hours = {}
     try:
         for row in d[203][0]:
@@ -35,7 +36,7 @@ def info(fid):
     except (IndexError, TypeError):
         pass
     order = list(DAYS.values())
-    return gtype, {k: hours[k] for k in order if k in hours}
+    return gtype, {k: hours[k] for k in order if k in hours}, coords
 
 plan = json.loads(PLAN.read_text())
 only = set(sys.argv[1:])
@@ -45,9 +46,12 @@ for p in plan["places"]:
     fid = f"0x0:{int(p['cid']):#x}" if p.get("cid") else find_fid(p)
     if not fid:
         print(f"?? {p['id']}: not found"); continue
-    if not p.get("cid"):
+    searched = not p.get("cid")
+    if searched:
         p["cid"] = str(int(fid.split(":")[1], 16))
-    gtype, hours = info(fid)
+    gtype, hours, coords = info(fid)
+    if searched and coords:  # 검색으로 찾은 장소는 구글 좌표로 보정
+        p["lat"], p["lng"] = coords
     if gtype: p["gtype"] = gtype
     if hours: p["hours"] = hours
     print(f"{p['id']}: {gtype} | {' / '.join(f'{k} {v}' for k, v in hours.items()) or '영업시간 없음'}")

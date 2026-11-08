@@ -102,9 +102,11 @@ function highlight(id, scroll = true) {
   if (el) { el.classList.add('active'); if (scroll) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
 }
 
+let lastBounds = null;
 function fit(latlngs) {
   if (!latlngs.length) return;
-  map.fitBounds(L.latLngBounds(latlngs), { padding: [30, 30], maxZoom: 16 });
+  lastBounds = L.latLngBounds(latlngs);
+  map.fitBounds(lastBounds, { padding: [30, 30], maxZoom: 16 });
 }
 
 function renderPlaces() {
@@ -222,6 +224,15 @@ async function init() {
     maxZoom: 19, attribution: '&copy; OpenStreetMap contributors',
   }).addTo(map);
   layer = L.layerGroup().addTo(map);
+
+  const setMapHidden = (hidden) => {
+    document.body.classList.toggle('map-hidden', hidden);
+    $('#map-toggle').textContent = hidden ? '🗺 지도 펴기' : '🗺 지도 접기';
+    localStorage.setItem('mapHidden', hidden ? '1' : '');
+    if (!hidden) { map.invalidateSize(); if (lastBounds) map.fitBounds(lastBounds, { padding: [30, 30], maxZoom: 16 }); }
+  };
+  $('#map-toggle').addEventListener('click', () => setMapHidden(!document.body.classList.contains('map-hidden')));
+  setMapHidden(!!localStorage.getItem('mapHidden'));
 
   window.addEventListener('hashchange', render);
   render();

@@ -1,0 +1,634 @@
+{
+  "trip": {
+    "title": "나고야 여행",
+    "dates": "2026.12.17 (목) – 12.20 (일)",
+    "start": "2026-12-17",
+    "end": "2026-12-20",
+    "info": [
+      "✈️ 가는 편 7C1201 인천 09:30 → 나고야 11:30",
+      "✈️ 오는 편 7C1204 나고야 18:00 → 인천 20:15",
+      "🏨 Daiwa Roynet Hotel NAGOYA-FUSHIMI · 체크인 12/17 14:00 · 체크아웃 12/20 11:00",
+      "🍺 12/18 10:10 기린 나고야 공장 견학 (2인, 2,000엔) · 10:00까지 도착",
+      "🚇 IC카드(Suica/manaca) 사용 · 토요일은 도니치 에코킷푸(지하철·버스 1일권)"
+    ],
+    "listUrl": "https://maps.app.goo.gl/62fVnCEQEaYMrswx6"
+  },
+  "categories": {
+    "food": {
+      "label": "식당",
+      "color": "#e4572e"
+    },
+    "bar": {
+      "label": "술집",
+      "color": "#a23b72"
+    },
+    "sight": {
+      "label": "관광",
+      "color": "#2e86ab"
+    },
+    "shop": {
+      "label": "쇼핑",
+      "color": "#f18f01"
+    },
+    "hotel": {
+      "label": "숙소",
+      "color": "#3b8b5a"
+    },
+    "transit": {
+      "label": "교통",
+      "color": "#6c757d"
+    },
+    "unknown": {
+      "label": "미분류",
+      "color": "#999999"
+    }
+  },
+  "places": [
+    {
+      "id": "hotel",
+      "name": "다이와 로이넷 호텔 나고야 후시미",
+      "category": "hotel",
+      "source": "plan",
+      "q": "ダイワロイネットホテル名古屋伏見",
+      "lat": 35.16778,
+      "lng": 136.89653,
+      "address": "中区栄1-5-21"
+    },
+    {
+      "id": "ngo",
+      "name": "주부국제공항 센트레아",
+      "category": "transit",
+      "source": "plan",
+      "q": "中部国際空港 第1ターミナル",
+      "lat": 34.8584,
+      "lng": 136.8054
+    },
+    {
+      "id": "flight-of-dreams",
+      "name": "Flight of Dreams",
+      "category": "sight",
+      "source": "plan",
+      "q": "FLIGHT OF DREAMS 中部国際空港",
+      "lat": 34.85537,
+      "lng": 136.81704,
+      "note": "보잉 787 실물 전시 (무료)"
+    },
+    {
+      "id": "meitetsu-nagoya",
+      "name": "메이테츠 나고야역",
+      "category": "transit",
+      "source": "plan",
+      "q": "名鉄名古屋駅",
+      "lat": 35.16845,
+      "lng": 136.88481
+    },
+    {
+      "id": "esca",
+      "name": "에스카 지하상가 (나고야역)",
+      "category": "food",
+      "source": "plan",
+      "q": "エスカ 名古屋駅",
+      "lat": 35.1697,
+      "lng": 136.88049,
+      "note": "야바톤(미소카츠)·야마모토야(미소니코미 우동)"
+    },
+    {
+      "id": "osu",
+      "name": "오스칸논·오스 상점가",
+      "category": "sight",
+      "source": "plan",
+      "q": "大須観音",
+      "lat": 35.15967,
+      "lng": 136.89931
+    },
+    {
+      "id": "oasis21",
+      "name": "오아시스21",
+      "category": "sight",
+      "source": "plan",
+      "q": "オアシス21",
+      "lat": 35.17109,
+      "lng": 136.90964
+    },
+    {
+      "id": "mirai-tower",
+      "name": "주부전력 미라이타워",
+      "category": "sight",
+      "source": "plan",
+      "q": "中部電力 MIRAI TOWER",
+      "lat": 35.1723,
+      "lng": 136.90833
+    },
+    {
+      "id": "biwajima",
+      "name": "JR 비와지마역",
+      "category": "transit",
+      "source": "plan",
+      "q": "枇杷島駅",
+      "lat": 35.199,
+      "lng": 136.8618
+    },
+    {
+      "id": "kirin",
+      "name": "기린맥주 나고야 공장",
+      "category": "sight",
+      "source": "plan",
+      "q": "キリンビール名古屋工場",
+      "lat": 35.20992,
+      "lng": 136.85106,
+      "address": "清須市寺野花笠100"
+    },
+    {
+      "id": "atsuta",
+      "name": "아쓰타 신궁",
+      "category": "sight",
+      "source": "plan",
+      "q": "熱田神宮",
+      "lat": 35.12543,
+      "lng": 136.90925
+    },
+    {
+      "id": "jr-central-towers",
+      "name": "JR 센트럴타워즈·게이트타워",
+      "category": "sight",
+      "source": "plan",
+      "q": "JRセントラルタワーズ",
+      "lat": 35.17086,
+      "lng": 136.8829,
+      "note": "전망·나고야역 일루미네이션"
+    },
+    {
+      "id": "nagoya-castle",
+      "name": "나고야성 혼마루고텐",
+      "category": "sight",
+      "source": "plan",
+      "q": "名古屋城 本丸御殿",
+      "lat": 35.18498,
+      "lng": 136.8997,
+      "note": "천수각은 공사로 입장 불가"
+    },
+    {
+      "id": "kinshachi",
+      "name": "긴샤치요코초 요시나오존",
+      "category": "food",
+      "source": "plan",
+      "q": "金シャチ横丁 義直ゾーン",
+      "lat": 35.18294,
+      "lng": 136.89919
+    },
+    {
+      "id": "toyota-museum",
+      "name": "도요타 산업기술기념관",
+      "category": "sight",
+      "source": "plan",
+      "q": "トヨタ産業技術記念館",
+      "lat": 35.18251,
+      "lng": 136.87652
+    },
+    {
+      "id": "noritake",
+      "name": "노리타케의 숲",
+      "category": "sight",
+      "source": "plan",
+      "q": "ノリタケの森",
+      "lat": 35.17949,
+      "lng": 136.88129
+    },
+    {
+      "id": "takashimaya",
+      "name": "JR 나고야 다카시마야",
+      "category": "shop",
+      "source": "plan",
+      "q": "ジェイアール名古屋タカシマヤ",
+      "lat": 35.1704,
+      "lng": 136.8833,
+      "note": "기념품: 유카리·반카쿠 새우센베, 우이로"
+    },
+    {
+      "id": "kushikatsu-tanaka",
+      "name": "꼬치카츠 다나카 후시미점",
+      "category": "food",
+      "source": "list",
+      "cid": "391141496323841850",
+      "lat": 35.1676073,
+      "lng": 136.8969234,
+      "address": "1 Chome-6-5 Sakae, Naka Ward, Nagoya, Aichi 460-0008 일본",
+      "note": ""
+    },
+    {
+      "id": "nishiyama-taxi",
+      "name": "니시야마 택시",
+      "category": "unknown",
+      "source": "list",
+      "cid": "12606721243385893275",
+      "lat": 35.1676442,
+      "lng": 136.8971878,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 1 Chome−6−7 十七ビル",
+      "note": ""
+    },
+    {
+      "id": "hitsumabushi-hanaoka",
+      "name": "히츠마부시 하나오카",
+      "category": "food",
+      "source": "list",
+      "cid": "7834563016046645259",
+      "lat": 35.1671451,
+      "lng": 136.9052649,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 3 Chome−8−115 サンリツノースビル 2Ｆ",
+      "note": ""
+    },
+    {
+      "id": "wairo",
+      "name": "대중밥술집 와이로",
+      "category": "bar",
+      "source": "list",
+      "cid": "9976614199108230463",
+      "lat": 35.1655984,
+      "lng": 136.9127593,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 5 Chome−5−33 オオタビル 1F",
+      "note": ""
+    },
+    {
+      "id": "gankochan",
+      "name": "간코쨩",
+      "category": "food",
+      "source": "list",
+      "cid": "216034820284933734",
+      "lat": 35.1624553,
+      "lng": 136.9128431,
+      "address": "5 Chome-26-20 Sakae, Naka Ward, Nagoya, Aichi 460-0008 일본",
+      "note": ""
+    },
+    {
+      "id": "ramen-ichihachi",
+      "name": "Ramen Ichi Hachi",
+      "category": "food",
+      "source": "list",
+      "cid": "16910765513822319941",
+      "lat": 35.172046,
+      "lng": 136.9028463,
+      "address": "일본 〒460-0003 Aichi, Nagoya, Naka Ward, Nishiki, 3 Chome−10−13 ピア錦ビル",
+      "note": ""
+    },
+    {
+      "id": "nikutarashi",
+      "name": "Nikutarashi Sakae",
+      "category": "food",
+      "source": "list",
+      "cid": "16485737230911571268",
+      "lat": 35.1667467,
+      "lng": 136.9010783,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 2 Chome−7−16 1F",
+      "note": ""
+    },
+    {
+      "id": "ichiran",
+      "name": "이치란 나고야 사카에점",
+      "category": "food",
+      "source": "list",
+      "cid": "15578792427424762197",
+      "lat": 35.1659027,
+      "lng": 136.9042274,
+      "address": "3 Chome-12-22 Sakae, Naka Ward, Nagoya, Aichi 460-0008 일본",
+      "note": ""
+    },
+    {
+      "id": "maeda-shokudo",
+      "name": "前田食堂",
+      "category": "food",
+      "source": "list",
+      "cid": "3445122711074384386",
+      "lat": 35.1699939,
+      "lng": 136.8981929,
+      "address": "일본 〒460-0003 Aichi, Nagoya, Naka Ward, Nishiki, 2 Chome−16−6 アベニューフシミ 1601ビル",
+      "note": ""
+    },
+    {
+      "id": "shabu-miyabi",
+      "name": "しゃぶしゃぶ雅",
+      "category": "food",
+      "source": "list",
+      "cid": "7262682510894498872",
+      "lat": 35.166925299999996,
+      "lng": 136.8982522,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 2 Chome−9−3 Fushimi Daiichi Building, B1",
+      "note": ""
+    },
+    {
+      "id": "ibushigin",
+      "name": "Ibushigin Fushimi",
+      "category": "bar",
+      "source": "list",
+      "cid": "8196312052922407942",
+      "lat": 35.1676765,
+      "lng": 136.8985837,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 2 Chome−1−14 マルイチセンタービル 1階",
+      "note": ""
+    },
+    {
+      "id": "yakiniku-jin",
+      "name": "Japanese Yakiniku JIN NAGOYA",
+      "category": "food",
+      "source": "list",
+      "cid": "14603143600735054411",
+      "lat": 35.1673312,
+      "lng": 136.8958839,
+      "address": "일본 〒460-0008 Aichi, Nagoya, Naka Ward, Sakae, 1 Chome−7−13 伏見パークビル 2F",
+      "note": ""
+    },
+    {
+      "id": "sakebar-musubi",
+      "name": "sakebar MUSUBI",
+      "category": "bar",
+      "source": "list",
+      "cid": "11369475994194481388",
+      "lat": 35.1714391,
+      "lng": 136.8975462,
+      "address": "일본 〒460-0003 Aichi, Nagoya, Naka Ward, Nishiki, 2 Chome−8−25 貝新ビル 4階",
+      "note": ""
+    },
+    {
+      "id": "shiawase-no-tensai",
+      "name": "Shiawase-no-Tensai",
+      "category": "unknown",
+      "source": "list",
+      "cid": "15080863351990664727",
+      "lat": 35.1700614,
+      "lng": 136.8977088,
+      "address": "일본 〒460-0003 Aichi, Nagoya, Naka Ward, Nishiki, 2 Chome−16−1 アベニューフシミ1601ビル 2階",
+      "note": ""
+    },
+    {
+      "id": "kurobutaya",
+      "name": "쿠로부타야 라무치",
+      "category": "food",
+      "source": "list",
+      "cid": "13117063955543650772",
+      "lat": 35.1667687,
+      "lng": 136.9078985,
+      "address": "HP栄ビル, Ｂ１Ｆ, 3 Chome-15-6 Sakae, Naka Ward, Nagoya, Aichi 460-0008 일본",
+      "note": ""
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-12-17",
+      "label": "12/17 목",
+      "title": "도착 · 오스 · 사카에",
+      "items": [
+        {
+          "time": "11:30",
+          "title": "센트레아 도착 · 입국심사",
+          "places": [
+            "ngo"
+          ],
+          "note": "7C1201"
+        },
+        {
+          "time": "12:30",
+          "title": "μSKY → 메이테츠 나고야",
+          "places": [
+            "meitetsu-nagoya"
+          ],
+          "note": "약 28분, 뮤티켓 포함 약 1,400엔/인"
+        },
+        {
+          "time": "13:15",
+          "title": "점심: 미소카츠 또는 미소니코미 우동",
+          "places": [
+            "esca"
+          ]
+        },
+        {
+          "time": "14:00",
+          "title": "호텔 체크인",
+          "places": [
+            "hotel"
+          ],
+          "note": "히가시야마선 나고야 → 후시미 1정거장"
+        },
+        {
+          "time": "15:00",
+          "title": "오스 상점가 · 오스칸논",
+          "places": [
+            "osu"
+          ],
+          "note": "쓰루마이선 후시미 → 오스칸논 1정거장"
+        },
+        {
+          "time": "18:30",
+          "title": "저녁: 꼬치카츠",
+          "places": [
+            "kushikatsu-tanaka",
+            "ibushigin"
+          ],
+          "note": "호텔 바로 옆"
+        },
+        {
+          "time": "20:30",
+          "title": "2차: 사케 바",
+          "places": [
+            "sakebar-musubi"
+          ]
+        },
+        {
+          "time": "21:30",
+          "title": "사카에 야경 (선택)",
+          "places": [
+            "oasis21",
+            "mirai-tower"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-12-18",
+      "label": "12/18 금",
+      "title": "기린 맥주공장 · 아쓰타 신궁",
+      "items": [
+        {
+          "time": "08:00",
+          "title": "고메다 커피 모닝",
+          "note": "음료 주문 시 토스트 무료"
+        },
+        {
+          "time": "09:00",
+          "title": "호텔 출발",
+          "places": [
+            "hotel"
+          ],
+          "note": "후시미 → 나고야(히가시야마선) → JR 도카이도선 비와지마"
+        },
+        {
+          "time": "09:30",
+          "title": "비와지마역 → 정기운행 버스",
+          "places": [
+            "biwajima"
+          ],
+          "note": "버스 약 10분. 대안: JR조호쿠선 오와리호시노미야 도보 5분 / 택시 5~10분. 버스 시간표 확인 필요"
+        },
+        {
+          "time": "10:10",
+          "title": "기린 나고야 공장 견학 투어",
+          "places": [
+            "kirin"
+          ],
+          "note": "10:00까지 도착 필수 · 11:30 종료",
+          "fixed": true
+        },
+        {
+          "time": "12:30",
+          "title": "점심: 히쓰마부시",
+          "places": [
+            "hitsumabushi-hanaoka"
+          ],
+          "note": "사카에역에서 메이조선으로 아쓰타 바로 연결"
+        },
+        {
+          "time": "14:00",
+          "title": "아쓰타 신궁",
+          "places": [
+            "atsuta"
+          ],
+          "note": "메이조선 진구니시역"
+        },
+        {
+          "time": "17:00",
+          "title": "나고야역 전망 · 일루미네이션",
+          "places": [
+            "jr-central-towers"
+          ],
+          "note": "피곤하면 호텔 휴식"
+        },
+        {
+          "time": "19:00",
+          "title": "저녁: 야키니쿠 / 흑돼지",
+          "places": [
+            "yakiniku-jin",
+            "kurobutaya"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-12-19",
+      "label": "12/19 토",
+      "title": "나고야성 · 시내",
+      "items": [
+        {
+          "time": "09:00",
+          "title": "나고야성 혼마루고텐",
+          "places": [
+            "nagoya-castle"
+          ],
+          "note": "메이조선 시야쿠쇼역 · 도니치 에코킷푸 사용"
+        },
+        {
+          "time": "11:30",
+          "title": "점심: 긴샤치요코초",
+          "places": [
+            "kinshachi"
+          ]
+        },
+        {
+          "time": "13:30",
+          "title": "도요타 산업기술기념관 또는 노리타케의 숲",
+          "places": [
+            "toyota-museum",
+            "noritake"
+          ]
+        },
+        {
+          "time": "17:00",
+          "title": "호텔 휴식",
+          "places": [
+            "hotel"
+          ]
+        },
+        {
+          "time": "18:30",
+          "title": "저녁: 샤부샤부 또는 이자카야",
+          "places": [
+            "shabu-miyabi",
+            "wairo",
+            "gankochan"
+          ]
+        },
+        {
+          "time": "22:00",
+          "title": "야식: 라멘 (선택)",
+          "places": [
+            "ichiran",
+            "ramen-ichihachi"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-12-20",
+      "label": "12/20 일",
+      "title": "쇼핑 · 출국",
+      "items": [
+        {
+          "time": "10:30",
+          "title": "체크아웃 · 짐 맡기기",
+          "places": [
+            "hotel"
+          ]
+        },
+        {
+          "time": "11:00",
+          "title": "이른 점심",
+          "places": [
+            "maeda-shokudo",
+            "nikutarashi"
+          ]
+        },
+        {
+          "time": "12:00",
+          "title": "나고야역 기념품 쇼핑",
+          "places": [
+            "takashimaya"
+          ]
+        },
+        {
+          "time": "13:30",
+          "title": "호텔에서 짐 찾기",
+          "places": [
+            "hotel"
+          ]
+        },
+        {
+          "time": "14:30",
+          "title": "μSKY → 공항",
+          "places": [
+            "meitetsu-nagoya"
+          ],
+          "note": "약 28분"
+        },
+        {
+          "time": "15:00",
+          "title": "Flight of Dreams 구경 · 간단 식사",
+          "places": [
+            "flight-of-dreams"
+          ]
+        },
+        {
+          "time": "16:00",
+          "title": "체크인 · 출국심사",
+          "places": [
+            "ngo"
+          ]
+        },
+        {
+          "time": "18:00",
+          "title": "7C1204 출발",
+          "places": [
+            "ngo"
+          ],
+          "fixed": true
+        }
+      ]
+    }
+  ]
+}

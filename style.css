@@ -60,3 +60,8 @@ body.map-hidden #map { display: none; }
   main { margin: 0 0 0 50%; max-width: none; padding: 8px 16px 40px; }
   body.map-hidden main { margin: 0 auto; max-width: 760px; }
 }
+.list-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 10px 2px; }
+.list-head .section-title { margin: 0; }
+.sort { display: flex; border: 1px solid #d0d4d9; border-radius: 14px; overflow: hidden; flex: none; }
+.sort button { border: 0; background: #fff; padding: 5px 10px; font-size: 12px; color: #444; }
+.sort button.on { background: #222; color: #fff; }

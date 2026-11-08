@@ -109,12 +109,17 @@ function fit(latlngs) {
   map.fitBounds(lastBounds, { padding: [30, 30], maxZoom: 16 });
 }
 
+// 첫 방문 일정 키 (미배치는 맨 뒤)
+const visitKey = (p) => (usage[p.id] || []).map((x) => `${x.planB ? '}' : ''}${x.date} ${x.time}`).sort()[0] || '~'; // B안은 실제 일정 뒤, 미배치보다 앞
+
 function renderPlaces() {
   const list = Object.values(places);
-  if (here) list.sort((a, b) => distance(a) - distance(b));
+  const mode = localStorage.getItem('placeSort') || 'dist';
+  const byDist = mode === 'dist' && here;
+  list.sort(byDist ? (a, b) => distance(a) - distance(b) : (a, b) => (visitKey(a) < visitKey(b) ? -1 : visitKey(a) > visitKey(b) ? 1 : 0));
   const t = plan.trip;
   const html = list.map((p) => {
-    const u = usage[p.id] || [];
+    const u = [...(usage[p.id] || [])].sort((x, y) => (`${x.date} ${x.time}` < `${y.date} ${y.time}` ? -1 : 1));
     const tags = u.length
       ? u.map((x) => `<span class="tag go" data-go="${esc(x.date)}@${esc(x.time)}">${esc(x.label)} ${esc(x.time)} ›</span>`).join('')
       : '<span class="tag none">미배치</span>';
@@ -126,7 +131,14 @@ function renderPlaces() {
         ${t.hoursAsOf ? `<li>🕒 영업시간은 구글 지도 ${esc(t.hoursAsOf)} 기준 — 연말에는 바뀔 수 있음</li>` : ''}</ul>
       ${t.listUrl ? `<a href="${t.listUrl}" target="_blank" rel="noopener">구글 지도 저장 목록 열기</a>` : ''}
     </details>
-    <div class="section-title">전체 장소 ${list.length}곳${here ? ' · 가까운 순' : ''}</div>
+    <div class="list-head">
+      <span class="section-title">전체 장소 ${list.length}곳</span>
+      <span class="sort">
+        <button data-sort="dist" class="${mode === 'dist' ? 'on' : ''}">가까운 순</button>
+        <button data-sort="visit" class="${mode === 'visit' ? 'on' : ''}">방문 일정 순</button>
+      </span>
+    </div>
+    ${mode === 'dist' && !here ? '<div class="item-note">현위치를 확인하는 중이라 우선 방문 일정 순으로 보여줍니다.</div>' : ''}
     ${html}`;
   list.forEach((p) => addMarker(p));
   fit(list.map((p) => [p.lat, p.lng]));
@@ -217,14 +229,14 @@ function onPosition(pos) {
     hereMarker = L.circleMarker([here.lat, here.lng], { radius: 7, color: '#fff', weight: 3, fillColor: '#1a73e8', fillOpacity: 1 }).addTo(map).bindPopup('현위치');
   } else hereMarker.setLatLng([here.lat, here.lng]);
   document.querySelectorAll('[data-dist]').forEach((el) => { el.textContent = fmtDist(distance(places[el.dataset.dist])); });
-  if (first && !plan.days.some((d) => d.date === currentTab())) render(); // 장소 탭은 가까운 순으로 다시 정렬
+  if (first && currentTab() === 'places' && (localStorage.getItem('placeSort') || 'dist') === 'dist') render(); // 가까운 순으로 다시 정렬
 }
 
 async function init() {
   plan = await (await fetch('plan.json', { cache: 'no-cache' })).json();
   plan.places.forEach((p) => { places[p.id] = p; });
   plan.days.forEach((d) => d.items.forEach((it) => (it.places || []).forEach((id) => {
-    (usage[id] ||= []).push({ date: d.date, label: d.label, time: it.time });
+    (usage[id] ||= []).push({ date: d.date, label: d.label, time: it.time, planB: it.route === false });
   })));
   document.title = plan.trip.title;
   $('#title').textContent = plan.trip.title;
@@ -236,6 +248,8 @@ async function init() {
   });
   $('#content').addEventListener('click', (e) => {
     if (e.target.closest('a')) return;
+    const sort = e.target.closest('[data-sort]');
+    if (sort) { localStorage.setItem('placeSort', sort.dataset.sort); render(); return; }
     const go = e.target.closest('[data-go]');
     if (go) { location.hash = encodeURIComponent(go.dataset.go); return; }
     const el = e.target.closest('.place');

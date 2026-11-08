@@ -24,7 +24,25 @@ function fmtDist(m) {
 }
 const cat = (p) => plan.categories[p.category] || plan.categories.unknown || { label: p.category, color: '#999' };
 
-function placeRow(p, extra = '') {
+const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+const weekday = (date) => WEEK[new Date(`${date}T12:00:00+09:00`).getDay()];
+const isClosed = (h) => /휴무/.test(h || '');
+
+// wd가 있으면 그 요일 영업시간만, 없으면 휴무일 요약 + 주간 영업시간 펼치기
+function hoursHtml(p, wd) {
+  const h = p.hours;
+  if (!h) return '';
+  if (wd) {
+    const t = h[wd];
+    if (!t) return '';
+    return `<div class="hours${isClosed(t) ? ' closed' : ''}">🕒 ${wd}요일 ${isClosed(t) ? '휴무 — 방문일 휴무!' : esc(t)}</div>`;
+  }
+  const off = Object.keys(h).filter((k) => isClosed(h[k]));
+  return `<details class="hours"><summary>🕒 ${off.length ? `휴무 ${off.join('·')}` : '연중무휴'} · 영업시간</summary>
+    ${Object.entries(h).map(([k, v]) => `<div${isClosed(v) ? ' class="closed"' : ''}>${k} ${esc(v)}</div>`).join('')}</details>`;
+}
+
+function placeRow(p, extra = '', wd = null) {
   const c = cat(p);
   return `
     <div class="place" data-place="${esc(p.id)}">
@@ -34,10 +52,12 @@ function placeRow(p, extra = '') {
           <div class="place-name">${esc(p.name)}</div>
           <div class="place-sub">
             <span class="badge" style="color:${c.color};border-color:${c.color}">${esc(c.label)}</span>
+            ${p.source === 'list' ? '<span class="tag saved">★ 저장됨</span>' : ''}
             <span class="dist" data-dist="${esc(p.id)}">${fmtDist(distance(p))}</span>
             ${extra}
           </div>
-          ${p.note ? `<div class="place-note">${esc(p.note)}</div>` : ''}
+          ${p.gtype || p.note ? `<div class="place-note">${[p.gtype, p.note].filter(Boolean).map(esc).join(' · ')}</div>` : ''}
+          ${hoursHtml(p, wd)}
         </div>
       </div>
       <div class="btns">
@@ -100,7 +120,8 @@ function renderPlaces() {
   }).join('');
   $('#content').innerHTML = `
     <details class="info"><summary>${esc(t.dates)} · 여행 정보</summary>
-      <ul>${(t.info || []).map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
+      <ul>${(t.info || []).map((s) => `<li>${esc(s)}</li>`).join('')}
+        ${t.hoursAsOf ? `<li>🕒 영업시간은 구글 지도 ${esc(t.hoursAsOf)} 기준 — 연말에는 바뀔 수 있음</li>` : ''}</ul>
       ${t.listUrl ? `<a href="${t.listUrl}" target="_blank" rel="noopener">구글 지도 저장 목록 열기</a>` : ''}
     </details>
     <div class="section-title">전체 장소 ${list.length}곳${here ? ' · 가까운 순' : ''}</div>
@@ -112,6 +133,7 @@ function renderPlaces() {
 function renderDay(day) {
   const items = [...day.items].sort((a, b) => a.time.localeCompare(b.time));
   const route = [];
+  const wd = weekday(day.date);
   let n = 0;
   const html = items.map((it) => {
     const ps = (it.places || []).map((id) => places[id]).filter(Boolean);
@@ -124,7 +146,7 @@ function renderDay(day) {
       addMarker(main, { num });
       ps.slice(1).forEach((p) => addMarker(p, { small: true }));
     }
-    const rows = ps.map((p, i) => placeRow(p, i ? '<span class="tag alt">대안</span>' : '')).join('');
+    const rows = ps.map((p, i) => placeRow(p, i ? '<span class="tag alt">대안</span>' : '', wd)).join('');
     return `
       <div class="item${it.fixed ? ' fixed' : ''}">
         <div class="item-head">
@@ -133,6 +155,8 @@ function renderDay(day) {
           <span class="item-title">${esc(it.title)}</span>
         </div>
         ${it.note ? `<div class="item-note">${esc(it.note)}</div>` : ''}
+        ${it.move ? `<div class="move">🚇 ${esc(it.move)}</div>` : ''}
+        ${(it.tips || []).length ? `<ul class="tips">${it.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
         ${rows}
       </div>`;
   }).join('');

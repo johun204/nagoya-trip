@@ -7,7 +7,7 @@ h1 { font-size: 18px; margin: 0; }
 #tabs { display: flex; gap: 6px; overflow-x: auto; padding: 6px 14px 10px; }
 #tabs button { flex: none; border: 1px solid #d0d4d9; background: #fff; border-radius: 16px; padding: 6px 14px; font-size: 14px; }
 #tabs button.on { background: #222; color: #fff; border-color: #222; }
-#map { position: sticky; top: 92px; z-index: 1000; height: 38vh; min-height: 220px; }
+#map { position: sticky; top: var(--head-h, 92px); z-index: 1000; height: 38vh; min-height: 220px; }
 main { padding: 8px 12px 40px; max-width: 760px; margin: 0 auto; }
 .section-title { font-weight: 700; margin: 10px 2px; }
 .info { background: #fff; border-radius: 10px; padding: 10px 12px; margin-top: 6px; font-size: 14px; }
@@ -49,3 +49,14 @@ main { padding: 8px 12px 40px; max-width: 760px; margin: 0 auto; }
 .head-right { display: flex; align-items: center; gap: 8px; }
 #map-toggle { border: 1px solid #d0d4d9; background: #fff; border-radius: 14px; padding: 4px 10px; font-size: 12px; }
 body.map-hidden #map { display: none; }
+
+.tag.go { background: #e3f0fb; color: #1a5fb4; cursor: pointer; }
+.item.flash { animation: flash 1.6s ease-out; }
+@keyframes flash { 0%, 40% { box-shadow: 0 0 0 3px #1a73e8; } 100% { box-shadow: 0 1px 2px rgba(0,0,0,.05); } }
+
+/* 넓은 화면(폴드 펼침·태블릿): 지도 왼쪽, 일정 오른쪽 */
+@media (min-width: 600px) {
+  #map { position: fixed; top: var(--head-h, 92px); left: 0; bottom: 0; width: 50%; height: auto; min-height: 0; }
+  main { margin: 0 0 0 50%; max-width: none; padding: 8px 16px 40px; }
+  body.map-hidden main { margin: 0 auto; max-width: 760px; }
+}

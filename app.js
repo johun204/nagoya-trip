@@ -116,7 +116,7 @@ function renderPlaces() {
   const html = list.map((p) => {
     const u = usage[p.id] || [];
     const tags = u.length
-      ? u.map((x) => `<span class="tag">${esc(x.label)} ${esc(x.time)}</span>`).join('')
+      ? u.map((x) => `<span class="tag go" data-go="${esc(x.date)}@${esc(x.time)}">${esc(x.label)} ${esc(x.time)} ›</span>`).join('')
       : '<span class="tag none">미배치</span>';
     return placeRow(p, tags);
   }).join('');
@@ -150,9 +150,9 @@ function renderDay(day) {
       addMarker(main, { num });
       ps.slice(1).forEach((p) => addMarker(p, { small: true }));
     }
-    const rows = ps.map((p, i) => placeRow(p, i ? '<span class="tag alt">대안</span>' : '', wd)).join('');
+    const rows = ps.map((p, i) => placeRow(p, i && !it.visitAll ? '<span class="tag alt">대안</span>' : '', wd)).join('');
     return `
-      <div class="item${it.fixed ? ' fixed' : ''}${it.route === false ? ' offroute' : ''}">
+      <div class="item${it.fixed ? ' fixed' : ''}${it.route === false ? ' offroute' : ''}" data-time="${esc(it.time)}">
         <div class="item-head">
           <span class="time">${esc(it.time)}</span>
           ${num ? `<span class="num">${num}</span>` : ''}
@@ -171,16 +171,37 @@ function renderDay(day) {
   fit(items.flatMap((it) => (it.places || []).map((id) => places[id]).filter(Boolean).map((p) => [p.lat, p.lng])));
 }
 
-const currentTab = () => decodeURIComponent(location.hash.slice(1)) || defaultTab();
+// 해시 형식: #<탭> 또는 #<날짜>@<시간> (해당 일정으로 스크롤)
+const hashParts = () => decodeURIComponent(location.hash.slice(1)).split('@');
+const currentTab = () => hashParts()[0] || defaultTab();
+const tabKeys = () => ['places', ...plan.days.map((d) => d.date)];
+const isWide = () => matchMedia('(min-width: 600px)').matches;
+
+function scrollToEl(el) {
+  const mapH = !isWide() && !document.body.classList.contains('map-hidden') ? $('#map').offsetHeight : 0;
+  const top = el.getBoundingClientRect().top + window.scrollY - $('header').offsetHeight - mapH - 8;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
 
 function render() {
   const key = currentTab();
-  document.querySelectorAll('#tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === key));
+  const time = hashParts()[1];
+  document.querySelectorAll('#tabs button').forEach((b) => {
+    b.classList.toggle('on', b.dataset.tab === key);
+    if (b.dataset.tab === key) b.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+  });
   layer.clearLayers();
   markers = {};
   const day = plan.days.find((d) => d.date === key);
   day ? renderDay(day) : renderPlaces();
   window.scrollTo(0, 0);
+  const target = time && document.querySelector(`.item[data-time="${CSS.escape(time)}"]`);
+  if (target) {
+    target.classList.add('flash');
+    const first = target.querySelector('.place');
+    if (first) focusPlace(first.dataset.place);
+    requestAnimationFrame(() => scrollToEl(target));
+  }
 }
 
 function defaultTab() {
@@ -203,7 +224,7 @@ async function init() {
   plan = await (await fetch('plan.json', { cache: 'no-cache' })).json();
   plan.places.forEach((p) => { places[p.id] = p; });
   plan.days.forEach((d) => d.items.forEach((it) => (it.places || []).forEach((id) => {
-    (usage[id] ||= []).push({ label: d.label, time: it.time });
+    (usage[id] ||= []).push({ date: d.date, label: d.label, time: it.time });
   })));
   document.title = plan.trip.title;
   $('#title').textContent = plan.trip.title;
@@ -215,9 +236,15 @@ async function init() {
   });
   $('#content').addEventListener('click', (e) => {
     if (e.target.closest('a')) return;
+    const go = e.target.closest('[data-go]');
+    if (go) { location.hash = encodeURIComponent(go.dataset.go); return; }
     const el = e.target.closest('.place');
     if (el) focusPlace(el.dataset.place);
   });
+
+  const syncHeadH = () => document.documentElement.style.setProperty('--head-h', `${$('header').offsetHeight}px`);
+  new ResizeObserver(syncHeadH).observe($('header'));
+  syncHeadH();
 
   map = L.map('map', { zoomControl: true });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -233,6 +260,20 @@ async function init() {
   };
   $('#map-toggle').addEventListener('click', () => setMapHidden(!document.body.classList.contains('map-hidden')));
   setMapHidden(!!localStorage.getItem('mapHidden'));
+
+  // 좌우 스와이프로 탭 이동 (지도 위 드래그는 제외)
+  let touch = null;
+  $('#content').addEventListener('touchstart', (e) => {
+    touch = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+  }, { passive: true });
+  $('#content').addEventListener('touchend', (e) => {
+    if (!touch) return;
+    const dx = e.changedTouches[0].clientX - touch.x, dy = e.changedTouches[0].clientY - touch.y;
+    touch = null;
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const keys = tabKeys(), i = keys.indexOf(currentTab()) + (dx < 0 ? 1 : -1);
+    if (i >= 0 && i < keys.length) location.hash = encodeURIComponent(keys[i]);
+  }, { passive: true });
 
   window.addEventListener('hashchange', render);
   render();

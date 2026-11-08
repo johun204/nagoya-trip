@@ -138,7 +138,9 @@ function renderDay(day) {
   const html = items.map((it) => {
     const ps = (it.places || []).map((id) => places[id]).filter(Boolean);
     let num = '';
-    if (ps.length) {
+    if (it.route === false) {
+      ps.forEach((p) => addMarker(p, { small: true })); // 동선 제외 (예: B안)
+    } else if (ps.length) {
       const main = ps[0];
       const last = route[route.length - 1];
       if (!last || last.id !== main.id) route.push(main);
@@ -148,7 +150,7 @@ function renderDay(day) {
     }
     const rows = ps.map((p, i) => placeRow(p, i ? '<span class="tag alt">대안</span>' : '', wd)).join('');
     return `
-      <div class="item${it.fixed ? ' fixed' : ''}">
+      <div class="item${it.fixed ? ' fixed' : ''}${it.route === false ? ' offroute' : ''}">
         <div class="item-head">
           <span class="time">${esc(it.time)}</span>
           ${num ? `<span class="num">${num}</span>` : ''}

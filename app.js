@@ -144,6 +144,20 @@ function renderPlaces() {
   fit(list.map((p) => [p.lat, p.lng]));
 }
 
+// 이전 장소 → 이 장소 이동 구간 (시간·수단·환승·요금·예약)
+function legHtml(t) {
+  if (!t) return '';
+  const head = [t.depart && t.depart !== '—' ? `${esc(t.depart)} 출발` : '', esc(t.duration), (t.modes || []).map(esc).join(' → ')]
+    .filter(Boolean).join(' · ');
+  return `
+      <div class="leg">
+        <div class="leg-head">🚇 이동 · ${head}</div>
+        ${(t.steps || []).length ? `<ol class="leg-steps">${t.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
+        ${t.fare ? `<div class="leg-fare">💴 ${esc(t.fare)}</div>` : ''}
+        ${t.reserve ? `<div class="leg-reserve">🎫 ${esc(t.reserve)}</div>` : ''}
+      </div>`;
+}
+
 function renderDay(day) {
   const items = [...day.items].sort((a, b) => a.time.localeCompare(b.time));
   const route = [];
@@ -163,7 +177,7 @@ function renderDay(day) {
       ps.slice(1).forEach((p) => addMarker(p, { small: true }));
     }
     const rows = ps.map((p, i) => placeRow(p, i && !it.visitAll ? '<span class="tag alt">대안</span>' : '', wd)).join('');
-    return `
+    return `${legHtml(it.transit)}
       <div class="item${it.fixed ? ' fixed' : ''}${it.route === false ? ' offroute' : ''}" data-time="${esc(it.time)}">
         <div class="item-head">
           <span class="time">${esc(it.time)}</span>
@@ -171,7 +185,6 @@ function renderDay(day) {
           <span class="item-title">${esc(it.title)}</span>
         </div>
         ${it.note ? `<div class="item-note">${esc(it.note)}</div>` : ''}
-        ${it.move ? `<div class="move">🚇 ${esc(it.move)}</div>` : ''}
         ${(it.tips || []).length ? `<ul class="tips">${it.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
         ${rows}
       </div>`;
